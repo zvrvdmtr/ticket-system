@@ -30,7 +30,7 @@ def create_ticket():
     return new_ticket, 201
 
 
-@ticket.route('/ticket/<ticket_id>', methods=['GET'])
+@ticket.route('/ticket/<int:ticket_id>', methods=['GET'])
 def get_ticket(ticket_id):
     ticket = get_ticket_by_id(ticket_id)
     if not ticket:
@@ -39,7 +39,7 @@ def get_ticket(ticket_id):
     return ticket, 200
 
 
-@ticket.route('/ticket/<ticket_id>/status', methods=['PATCH'])
+@ticket.route('/ticket/<int:ticket_id>/status', methods=['PATCH'])
 def change_status(ticket_id):
     body = request.get_json()
     if not isinstance(body, dict):
@@ -55,7 +55,7 @@ def change_status(ticket_id):
     return "", 204
 
 
-@ticket.route('/ticket/<ticket_id>/comment', methods=['POST'])
+@ticket.route('/ticket/<int:ticket_id>/comment', methods=['POST'])
 def comment(ticket_id):
     try:
         result = CommentSchema().loads(request.data.decode())

@@ -6,7 +6,7 @@ from .models import Comment, Ticket
 DEFAULT_STATUS = 'OPEN'
 
 STATUSES = {
-    'OPEN': ['PENDING', 'CLOSED'],
+    'OPEN': ['ANSWERED', 'CLOSED'],
     'ANSWERED': ['AWAITING REPLY', 'CLOSED'],
     'AWAITING REPLY': ['ANSWERED'],
     'CLOSED': [],
