@@ -30,29 +30,28 @@ def create_ticket():
     return new_ticket, 201
 
 
-@ticket.route('/ticket/<int:ticket_id>', methods=['GET'])
+@ticket.route('/ticket/<int:ticket_id>', methods=['GET', 'PATCH'])
 def get_ticket(ticket_id):
-    ticket = get_ticket_by_id(ticket_id)
-    if not ticket:
-        return 'Not Found', 404
+    if request.method == 'GET':
+        ticket = get_ticket_by_id(ticket_id)
+        if not ticket:
+            return 'Not Found', 404
 
-    return ticket, 200
+        return ticket, 200
 
+    else:
+        body = request.get_json()
+        if not isinstance(body, dict):
+            return 'Invalid query body.', 400
 
-@ticket.route('/ticket/<int:ticket_id>/status', methods=['PATCH'])
-def change_status(ticket_id):
-    body = request.get_json()
-    if not isinstance(body, dict):
-        return 'Invalid query body.', 400
+        status = body.get("status")
+        if not status:
+            return 'Invalid query body.', 400
 
-    status = body.get("status")
-    if not status:
-        return 'Invalid query body.', 400
+        if not transition_ticket_status(ticket_id, status):
+            return f"Can't change status to '{status}'", 400
 
-    if not transition_ticket_status(ticket_id, status):
-        return f"Can't change status to '{status}'", 400
-
-    return "", 204
+        return "", 204
 
 
 @ticket.route('/ticket/<int:ticket_id>/comment', methods=['POST'])

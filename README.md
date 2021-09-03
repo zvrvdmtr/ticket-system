@@ -59,7 +59,7 @@ RESPONSE:
 ```
 
 ### Update status
-PATH: ```api/v1/ticket/:id/status``` - PATCH
+PATH: ```api/v1/ticket/:id``` - PATCH
 PAYLOAD:
 ```
 {
